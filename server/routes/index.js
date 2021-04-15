@@ -3,6 +3,6 @@ import { getIndex } from '../controllers/index.js';
 
 const router = express.Router();
 
-router.get('/');
+router.get('/', getIndex);
 
 export default router;
