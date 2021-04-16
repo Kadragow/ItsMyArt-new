@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  login: {
+  nickname: {
     type: String,
     required: true,
     maxlength: 30,
@@ -37,7 +37,7 @@ const UserSchema = mongoose.Schema({
   },
 });
 
-UserSchema.pre('save', async (next) => {
+UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   try {
@@ -49,7 +49,7 @@ UserSchema.pre('save', async (next) => {
   }
 });
 
-UserSchema.methods.validatePassword = async (data) => {
+UserSchema.methods.validatePassword = async function (data) {
   return bcrypt.compare(data, this.password);
 };
 

@@ -12,7 +12,7 @@ export const login = async (req, res) => {
 
     if (!user) return res.status(404).json({ message: 'User not found.' });
 
-    const isPasswordCorrect = user.validatePassword(password);
+    const isPasswordCorrect = await user.validatePassword(password);
 
     if (!isPasswordCorrect)
       return res.status(400).json({ message: 'Invalid password' });
@@ -30,7 +30,7 @@ export const login = async (req, res) => {
 };
 
 export const register = async (req, res) => {
-  const { email, login, password } = req.body;
+  const { email, nickname, password } = req.body;
 
   try {
     const checkEmail = await User.findOne({ email });
@@ -38,16 +38,17 @@ export const register = async (req, res) => {
     if (checkEmail)
       return res.status(400).json({ message: 'Email is already in use.' });
 
-    const checkLogin = await User.findOne({ login });
+    const checkLogin = await User.findOne({ nickname });
 
     if (checkLogin)
       return res.status(400).json({ message: 'Login is already taken.' });
 
     const role = Role.findOne({ name: 'User' });
 
-    if (!role) return res.status(500).json(SERVER_ERROR);
+    if (!role)
+      return res.status(404).json({ message: 'Role "User" not found.' });
 
-    const result = await User.create({ email, login, password, role: role.id });
+    const result = await User.create({ email, nickname, password, role: role._id });
     const token = jwt.sign(
       { email: result.email, id: result.id },
       SECRET_TOKEN_NAME,
