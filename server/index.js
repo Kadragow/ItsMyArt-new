@@ -2,12 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { seedRoles, seedTestUsers } from './db_seed/db_seed.js';
+import { seedRoles, seedTestUsers } from './src/loaders/db_seed.js';
 
-import indexRoutes from './routes/index.js';
-import authRoutes from './routes/auth.js';
-import postRoutes from './routes/post.js';
-import roleRoutes from './routes/role.js';
+import indexRoutes from './src/routes/index.js';
+import authRoutes from './src/routes/auth.js';
+import postRoutes from './src/routes/post.js';
+import roleRoutes from './src/routes/role.js';
+import userRoutes from './src/routes/user.js';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/post', postRoutes);
 app.use('/role', roleRoutes);
+app.use('/user', userRoutes);
 
 seedRoles();
 seedTestUsers();

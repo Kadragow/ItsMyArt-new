@@ -3,7 +3,12 @@ import { SECRET_TOKEN_NAME } from '../utils/constants.js';
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    const authorization = req.headers.authorization;
+
+    if (!authorization) return res.status(403).json({ message: 'Forbidden' });
+
+    const token = authorization.split(' ')[1];
+
     const isCustomAuth = token.length < 500;
 
     let decodedData;
@@ -11,11 +16,11 @@ const auth = async (req, res, next) => {
     if (token && isCustomAuth) {
       decodedData = jwt.verify(token, SECRET_TOKEN_NAME);
 
-      req.userId = decodedData?.id;
+      req.userId = decodedData.id;
     } else {
       decodedData = jwt.decode(token);
 
-      req.userId = decodedData?.sub;
+      req.userId = decodedData.sub;
     }
 
     next();

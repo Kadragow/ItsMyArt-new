@@ -43,13 +43,13 @@ export const seedTestUsers = async () => {
       email: 'admin1@test.com',
       nickname: 'admin1',
       password: 'admin1',
-      role: userRole._id,
+      role: adminRole._id,
     }),
     new User({
       email: 'admin2@test.com',
       nickname: 'admin2',
       password: 'admin2',
-      role: userRole._id,
+      role: adminRole._id,
     }),
   ];
 
