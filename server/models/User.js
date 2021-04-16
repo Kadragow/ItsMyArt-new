@@ -1,15 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const SALT_WORK_FACTOR = 10;
+import { SALT_WORK_FACTOR } from '../utils/constants.js';
 
 const UserSchema = mongoose.Schema({
-  nickname: {
-    type: String,
-    required: true,
-    maxlength: 30,
-    minlength: 5,
-  },
   email: {
     type: String,
     required: true,
@@ -31,6 +25,12 @@ const UserSchema = mongoose.Schema({
     ref: 'Role',
     required: true,
   },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post',
+    },
+  ],
   active: {
     type: Boolean,
     default: true,
@@ -53,6 +53,6 @@ UserSchema.methods.validatePassword = async (data) => {
   return bcrypt.compare(data, this.password);
 };
 
-const User = mongoose.Model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 export default User;
