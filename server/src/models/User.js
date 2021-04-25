@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePagination from 'mongoose-paginate-v2';
 import bcrypt from 'bcryptjs';
 
 import { SALT_WORK_FACTOR } from '../utils/constants.js';
@@ -17,6 +18,7 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
     required: true,
+    select: false,
     maxlength: 30,
     minlength: 5,
   },
@@ -52,6 +54,8 @@ UserSchema.pre('save', async function (next) {
 UserSchema.methods.validatePassword = async function (data) {
   return bcrypt.compare(data, this.password);
 };
+
+UserSchema.plugin(mongoosePagination);
 
 const User = mongoose.model('User', UserSchema);
 

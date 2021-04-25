@@ -2,7 +2,10 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { seedRoles, seedTestUsers } from './src/loaders/db_seed.js';
+import {
+  seedRoles,
+  seedTestUsers,
+} from './src/loaders/db_seed.js';
 
 import indexRoutes from './src/routes/index.js';
 import authRoutes from './src/routes/auth.js';
@@ -12,15 +15,15 @@ import userRoutes from './src/routes/user.js';
 
 const app = express();
 
-app.use(express.json({ limit: '30mb', extended: true }));
-app.use(express.urlencoded({ limit: '30mb', extended: true }));
+app.use(express.json({ limit: '10mb', extended: true }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors());
 
 app.use(indexRoutes);
 app.use('/auth', authRoutes);
-app.use('/post', postRoutes);
-app.use('/role', roleRoutes);
-app.use('/user', userRoutes);
+app.use('/posts', postRoutes);
+app.use('/roles', roleRoutes);
+app.use('/users', userRoutes);
 
 seedRoles();
 seedTestUsers();
