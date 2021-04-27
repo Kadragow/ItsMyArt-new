@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
+import mongoosePagination from 'mongoose-paginate-v2';
 
 const PostSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    maxlength: 30,
+  },
   description: {
     type: String,
     maxlength: 256,
@@ -22,6 +26,8 @@ const PostSchema = mongoose.Schema({
     default: new Date(),
   },
 });
+
+PostSchema.plugin(mongoosePagination);
 
 const Post = mongoose.model('Post', PostSchema);
 
