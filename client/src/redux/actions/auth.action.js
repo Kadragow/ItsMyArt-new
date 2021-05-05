@@ -11,7 +11,9 @@ const logout = (item) => ({
   item,
 });
 
-export default {
+const actionSet = {
   setUser,
-  logout,
-};
+  logout
+}
+
+export default actionSet;
