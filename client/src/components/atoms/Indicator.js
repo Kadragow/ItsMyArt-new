@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { RingLoader } from 'halogenium';
-import theme from '../../styles/theme';
+import theme from 'styles/theme';
 
 const Wrapper = styled.div`
   position: fixed;

@@ -1,4 +1,4 @@
-import { api } from '../../API';
+import { api } from 'API';
 import paginationActions from './pagination.action';
 
 export const ADD_POSTS = 'ADD_POSTS';
@@ -15,9 +15,10 @@ const addPosts = (posts) => ({
 });
 
 const getNextPosts = () => async (dispatch, getState) => {
-  const { pagination } = getState();
+  const { pagination, gallery } = getState();
 
-  if (!pagination.hasNextPage || pagination.page == null) return;
+  if (!pagination.hasNextPage || pagination.page == null || gallery.fetching)
+    return;
 
   dispatch(setFetchingImages(true));
 
