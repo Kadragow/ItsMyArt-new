@@ -2,7 +2,12 @@ import Role from '../models/Role.js';
 import User from '../models/User.js';
 
 export const seedRoles = async () => {
-  const data = await Role.find();
+  let data;
+  try {
+    data = await Role.find();
+  } catch (error) {
+    return;
+  }
 
   if (data.length > 1) return;
 
@@ -14,12 +19,24 @@ export const seedRoles = async () => {
 };
 
 export const seedTestUsers = async () => {
-  const data = await User.find();
+  let data;
+  try {
+    data = await User.find();
+  } catch (error) {
+    return;
+  }
 
   if (data.length !== 0) return;
 
-  const userRole = await Role.findOne({ name: 'User' });
-  const adminRole = await Role.findOne({ name: 'Admin' });
+  let userRole;
+  let adminRole;
+
+  try {
+    userRole = await Role.findOne({ name: 'User' });
+    adminRole = await Role.findOne({ name: 'Admin' });
+  } catch (err) {
+    return;
+  }
 
   if (!(userRole && adminRole)) return;
 

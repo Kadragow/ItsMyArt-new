@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import Indicator from '../components/atoms/Indicator';
+import React from 'react';
+import Gallery from 'components/homePage/Gallery';
+import MainWrapper from 'components/shared/MainWrapper';
 
 const HomePage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  return <>{isLoading ? <Indicator /> : <div>HomePage</div>}</>;
+  return (
+    <MainWrapper>
+      <Gallery />
+    </MainWrapper>
+  );
 };
 
 export default HomePage;

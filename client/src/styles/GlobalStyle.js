@@ -6,6 +6,8 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+        background-color: ${({ theme }) => theme.primary};
+        color: ${({ theme }) => theme.secondary};
     }
 
     *, *:before, *:after {

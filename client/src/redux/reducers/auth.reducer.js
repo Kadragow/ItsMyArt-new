@@ -1,4 +1,4 @@
-import { SET_USER, LOGOUT } from 'actions/auth.action';
+import { SET_USER, LOGOUT } from '../actions/auth.action';
 
 const INITIAL_STATE = {
   isAuthenticated: false,
