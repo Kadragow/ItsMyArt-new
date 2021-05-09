@@ -8,7 +8,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) return res.status(404).json({ message: 'User not found.' });
 
@@ -22,6 +22,8 @@ export const login = async (req, res) => {
       SECRET_TOKEN_NAME,
       { expiresIn: '1h' }
     );
+
+    user.password = undefined;
 
     res.status(200).json({ result: user, token });
   } catch (error) {
@@ -48,7 +50,12 @@ export const register = async (req, res) => {
     if (!role)
       return res.status(404).json({ message: 'Role "User" not found.' });
 
-    const result = await User.create({ email, nickname, password, role: role._id });
+    const result = await User.create({
+      email,
+      nickname,
+      password,
+      role: role._id,
+    });
     const token = jwt.sign(
       { email: result.email, id: result.id },
       SECRET_TOKEN_NAME,

@@ -7,6 +7,7 @@ import routes from 'routes/routes';
 import GlobalStyle from 'styles/GlobalStyle';
 
 import HomePage from 'pages/HomePage';
+import Login from 'pages/Login';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path={routes.home} component={HomePage} />
+          <Route exact path={routes.login} component={Login} />
         </Switch>
       </Router>
     </ThemeProvider>
