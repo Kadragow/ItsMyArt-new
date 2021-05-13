@@ -8,6 +8,11 @@ const inputs = [
     label: 'E-mail',
     rules: { required: true },
   },
+  {
+    name: 'password',
+    label: 'Password',
+    rules: { required: true },
+  },
 ];
 
 const Login = () => {
@@ -16,8 +21,12 @@ const Login = () => {
   };
 
   return (
-    <MainWrapper>
-      <SimpleForm inputs={inputs} onSubmit={onSubmit} />
+    <MainWrapper center>
+      <SimpleForm
+        submitLabel="Log me in!"
+        inputs={inputs}
+        onSubmit={onSubmit}
+      />
     </MainWrapper>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import SimpleInput from 'components/atoms/SimpleInput';
+import { SimpleButton } from 'components/atoms/SimpleButton';
 
 const Form = styled.form`
   width: 300px;
@@ -11,7 +12,7 @@ const Form = styled.form`
   align-items: center;
 `;
 
-const SimpleForm = ({ inputs, onSubmit }) => {
+const SimpleForm = ({ submitLabel, inputs, onSubmit }) => {
   const {
     handleSubmit,
     control,
@@ -37,7 +38,9 @@ const SimpleForm = ({ inputs, onSubmit }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {mappedInputs}
-      <button type="submit">label</button>
+      <SimpleButton type="submit" style={{ marginTop: '7vh' }}>
+        {submitLabel}
+      </SimpleButton>
     </Form>
   );
 };
