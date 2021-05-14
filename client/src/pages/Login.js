@@ -1,6 +1,8 @@
+import useAuth from 'auth/useAuth';
 import MainWrapper from 'components/shared/MainWrapper';
 import SimpleForm from 'components/shared/SimpleForm';
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 
 const inputs = [
   {
@@ -12,12 +14,23 @@ const inputs = [
     name: 'password',
     label: 'Password',
     rules: { required: true },
+    type: 'password',
   },
 ];
 
 const Login = () => {
-  const onSubmit = (data) => {
-    console.log(data);
+  const [error, setError] = useState();
+  const { login } = useAuth();
+  const history = useHistory();
+
+  const resetError = () => setError(null);
+
+  const onSubmit = async (data) => {
+    const result = await login(data);
+
+    if (result === 'success') history.push(history.location.state?.from || '/');
+
+    if (result?.data) setError(result.data);
   };
 
   return (
@@ -26,6 +39,9 @@ const Login = () => {
         submitLabel="Log me in!"
         inputs={inputs}
         onSubmit={onSubmit}
+        error={error}
+        resetError={resetError}
+        border
       />
     </MainWrapper>
   );

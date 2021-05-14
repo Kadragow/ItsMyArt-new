@@ -32,9 +32,9 @@ const StyledInput = styled.input`
 
 const InputWrapper = styled.div`
   z-index: 1;
-  margin-bottom: 1.5rem;
+  margin: auto auto 1.5rem auto;
   position: relative;
-  width: 20rem;
+  width: 100%;
 
   ${StyledInput}:focus + ${InputLabel}, 
   ${StyledInput}:not([value=""]) + ${InputLabel} {
@@ -43,10 +43,10 @@ const InputWrapper = styled.div`
   }
 `;
 
-const SimpleInput = ({ label, ...rest }) => {
+const SimpleInput = ({ label, type,...rest }) => {
   return (
     <InputWrapper>
-      <StyledInput id="label" {...rest} />
+      <StyledInput type={type} {...rest} />
       <InputLabel>{label}</InputLabel>
     </InputWrapper>
   );
