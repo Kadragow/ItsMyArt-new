@@ -35,8 +35,8 @@ sendRequest.interceptors.request.use(
 );
 
 export const api = {
-  login: (body) => sendRequest.post('/login', body),
-  register: (body) => sendRequest.post('/register', body),
+  login: (body) => sendRequest.post('/auth/login', body),
+  register: (body) => sendRequest.post('/auth/register', body),
 
   getAllPosts: ({ page, limit }) =>
     sendRequest.get(`/posts?page=${page}&limit=${limit}`),

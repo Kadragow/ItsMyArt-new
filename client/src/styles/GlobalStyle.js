@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         overflow-x: hidden;
         background-color: ${({ theme }) => theme.primary};
-        color: ${({ theme }) => theme.secondary};
+        color: ${({ theme }) => theme.fontColor};
     }
 
     *, *:before, *:after {

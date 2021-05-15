@@ -22,29 +22,31 @@ const getNextPosts = () => async (dispatch, getState) => {
 
   dispatch(setFetchingImages(true));
 
-  const { docs, nextPage, hasNextPage, totalPages } = await fetchPostsData(
-    pagination
-  );
+  try {
+    const { docs, nextPage, hasNextPage, totalPages } = await fetchPostsData(
+      pagination
+    );
 
-  dispatch(
-    paginationActions.setPageParameters({
-      page: nextPage,
-      hasNextPage,
-      totalPages,
-    })
-  );
-
-  dispatch(addPosts(docs));
-
-  dispatch(setFetchingImages(false));
+    dispatch(
+      paginationActions.setPageParameters({
+        page: nextPage,
+        hasNextPage,
+        totalPages,
+      })
+    );
+    dispatch(addPosts(docs));
+    dispatch(setFetchingImages(false));
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const fetchPostsData = async (params) => {
   try {
     const { data } = await api.getAllPosts(params);
     return data;
-  } catch (err) {
-    console.log(err);
+  } catch (e) {
+    console.log(e);
   }
 };
 
