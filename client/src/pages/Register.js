@@ -1,0 +1,61 @@
+import useAuth from 'auth/useAuth';
+import MainWrapper from 'components/shared/MainWrapper';
+import SimpleForm from 'components/shared/SimpleForm';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+
+const inputs = [
+  {
+    name: 'nickname',
+    label: 'Nickname',
+    rules: { required: true, minLength: 5, maxLength: 30 },
+  },
+  {
+    name: 'email',
+    label: 'E-mail',
+    rules: { required: true },
+  },
+  {
+    name: 'password',
+    label: 'Password',
+    rules: { required: true, minLength: 5, maxLength: 30 },
+    type: 'password',
+  },
+  {
+    name: 'repeatPassword',
+    label: 'Repeat password',
+    rules: { required: true, minLength: 5, maxLength: 30 },
+    type: 'password',
+  },
+];
+
+const Register = () => {
+  const [error, setError] = useState();
+  const { register } = useAuth();
+  const history = useHistory();
+
+  const resetError = () => setError(null);
+
+  const onSubmit = async (data) => {
+    const result = await register(data);
+
+    if (result === 'success') history.push(history.location.state?.from || '/');
+
+    if (result?.data) setError(result.data);
+  };
+
+  return (
+    <MainWrapper center>
+      <SimpleForm
+        submitLabel="Register!"
+        inputs={inputs}
+        onSubmit={onSubmit}
+        error={error}
+        resetError={resetError}
+        border
+      />
+    </MainWrapper>
+  );
+};
+
+export default Register;

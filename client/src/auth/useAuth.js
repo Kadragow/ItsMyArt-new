@@ -14,14 +14,29 @@ const useAuth = () => {
       delete data.token;
 
       dispatch(allActions.authActions.setUser(data.result));
-      
+
       return 'success';
     } catch ({ response }) {
       return response;
     }
   };
 
-  return { login };
+  const register = async (registerData) => {
+    try {
+      const { data } = await api.register(registerData);
+      localStorage.setItem(ACCESS_TOKEN, `${data.token}`);
+
+      delete data.token;
+
+      dispatch(allActions.authActions.setUser(data.result));
+
+      return 'success';
+    } catch ({ response }) {
+      return response;
+    }
+  };
+
+  return { login, register };
 };
 
 export default useAuth;

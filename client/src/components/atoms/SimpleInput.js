@@ -12,6 +12,7 @@ const InputLabel = styled.label`
 `;
 
 const StyledInput = styled.input`
+  max-width: 100%;
   width: 100%;
   height: 3rem;
   border: none;
@@ -43,11 +44,18 @@ const InputWrapper = styled.div`
   }
 `;
 
-const SimpleInput = ({ label, type,...rest }) => {
+const ErrorLabel = styled.div`
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+`;
+
+const SimpleInput = ({ label, type, error, ...rest }) => {
   return (
     <InputWrapper>
-      <StyledInput type={type} {...rest} />
+      <StyledInput type={type} error={error} {...rest} />
       <InputLabel>{label}</InputLabel>
+      <ErrorLabel>{error}</ErrorLabel>
     </InputWrapper>
   );
 };

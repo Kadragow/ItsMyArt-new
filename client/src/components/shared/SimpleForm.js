@@ -3,19 +3,30 @@ import { useForm, Controller } from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import SimpleInput from 'components/atoms/SimpleInput';
 import { SimpleButton } from 'components/atoms/SimpleButton';
+import { device } from 'styles/devices';
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  ${({ border, theme }) =>
+  ${({ border, error, theme }) =>
     border &&
     css`
-      border: 2px solid ${theme.secondary};
+      border: 2px solid ${error ? 'red' : theme.secondary};
       padding: 3rem;
     `}
+
+  @media ${device.tablet} {
+    width: 500px;
+  }
 `;
+
+const errorMessages = {
+  required: 'This field is required.',
+  minLength: 'This field did not match minimal length.',
+  maxLength: 'This field did not match maximum length.',
+};
 
 const SimpleForm = ({
   submitLabel,
@@ -24,6 +35,7 @@ const SimpleForm = ({
   error,
   resetError,
   border,
+  minHeight,
 }) => {
   const {
     handleSubmit,
@@ -41,7 +53,10 @@ const SimpleForm = ({
         <SimpleInput
           label={input.label}
           type={input.type}
-          error={Boolean(errors[input.name] || error)}
+          error={
+            errorMessages[errors[input.name]?.type] ||
+            (error && error[input.name]?.message)
+          }
           {...field}
         />
       )}
@@ -53,9 +68,11 @@ const SimpleForm = ({
       onSubmit={handleSubmit(onSubmit)}
       border={border}
       onChange={resetError}
+      error={Boolean(error || Object.keys(errors).length !== 0)}
+      minHeight={minHeight}
     >
       {mappedInputs}
-      <SimpleButton type="submit" style={{ marginTop: '7vh' }}>
+      <SimpleButton type="submit" style={{ marginTop: '5vh' }}>
         {submitLabel}
       </SimpleButton>
     </Form>

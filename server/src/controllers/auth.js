@@ -12,12 +12,15 @@ export const login = async (req, res) => {
       .select('+password -posts')
       .populate('role');
 
-    if (!user) return res.status(404).json({ message: 'User not found.' });
+    if (!user)
+      return res.status(400).json({ email: { message: 'Invalid e-mail.' } });
 
     const isPasswordCorrect = await user.validatePassword(password);
 
     if (!isPasswordCorrect)
-      return res.status(400).json({ message: 'Invalid password' });
+      return res
+        .status(400)
+        .json({ password: { message: 'Invalid password.' } });
 
     const token = jwt.sign(
       { email: user.email, id: user.id },
@@ -34,30 +37,40 @@ export const login = async (req, res) => {
 };
 
 export const register = async (req, res) => {
-  const { email, nickname, password } = req.body;
+  const { email, nickname, password, repeatPassword } = req.body;
+  const errors = {};
+
+  if (password !== repeatPassword) {
+    errors.password = { message: 'Passwords are different.' };
+    errors.repeatPassword = { message: 'Passwords are different.' };
+  }
 
   try {
     const checkEmail = await User.findOne({ email });
 
-    if (checkEmail)
-      return res.status(400).json({ message: 'Email is already in use.' });
+    if (checkEmail) errors.email = { message: 'Email is already in use.' };
 
     const checkLogin = await User.findOne({ nickname });
 
-    if (checkLogin)
-      return res.status(400).json({ message: 'Login is already taken.' });
+    if (checkLogin) errors.nickname = { message: 'Nickname is already taken.' };
 
-    const role = Role.findOne({ name: 'User' });
+    if (Object.keys(errors).length !== 0) return res.status(400).json(errors);
+
+    const role = await Role.findOne({ name: 'User' });
 
     if (!role)
       return res.status(404).json({ message: 'Role "User" not found.' });
 
-    const result = await User.create({
+    let result = await User.create({
       email,
       nickname,
       password,
       role: role._id,
     });
+
+    result = await result.populate('role').execPopulate();
+    result.password = undefined;
+
     const token = jwt.sign(
       { email: result.email, id: result.id },
       SECRET_TOKEN_NAME,
@@ -66,6 +79,7 @@ export const register = async (req, res) => {
 
     res.status(201).json({ result, token });
   } catch (error) {
+    console.log(error);
     res.status(500).json(SERVER_ERROR);
   }
 };
