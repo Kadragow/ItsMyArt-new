@@ -36,6 +36,7 @@ const SimpleForm = ({
   resetError,
   border,
   minHeight,
+  helpText,
 }) => {
   const {
     handleSubmit,
@@ -72,6 +73,7 @@ const SimpleForm = ({
       minHeight={minHeight}
     >
       {mappedInputs}
+      {helpText}
       <SimpleButton type="submit" style={{ marginTop: '5vh' }}>
         {submitLabel}
       </SimpleButton>
