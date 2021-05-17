@@ -36,7 +36,24 @@ const useAuth = () => {
     }
   };
 
-  return { login, register };
+  const logout = async () => {
+    dispatch(allActions.authActions.logout());
+    localStorage.removeItem(ACCESS_TOKEN);
+  };
+
+  const getCurrentUser = async () => {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+      try {
+        const { data } = await api.getCurrentUser();
+        dispatch(allActions.authActions.setUser(data));
+      } catch ({ response }) {
+        if (response?.status === 500) return;
+        logout();
+      }
+    }
+  };
+
+  return { login, logout, register, getCurrentUser };
 };
 
 export default useAuth;

@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        background-color: ${({ theme }) => theme.primary};
+        background-color: ${({ theme }) => theme.primaryLight};
         color: ${({ theme }) => theme.fontColor};
     }
 

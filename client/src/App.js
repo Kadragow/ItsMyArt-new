@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import theme from 'styles/theme';
 import routes from 'routes/routes';
@@ -9,19 +9,42 @@ import GlobalStyle from 'styles/GlobalStyle';
 import HomePage from 'pages/HomePage';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
+import SideMenu from 'components/menu/SideMenu';
+import { device } from 'styles/devices';
+import useAuth from 'auth/useAuth';
+
+const AppWrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
+`;
 
 const App = () => {
+  const { getCurrentUser } = useAuth();
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Router>
-        <Switch>
-          <Route exact path={routes.home} component={HomePage} />
-          <Route exact path={routes.login} component={Login} />
-          <Route exact path={routes.register} component={Register} />
-        </Switch>
-      </Router>
-    </ThemeProvider>
+    <AppWrapper>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Router>
+          <SideMenu />
+          <Switch>
+            <Route exact path={routes.home} component={HomePage} />
+            <Route exact path={routes.login} component={Login} />
+            <Route exact path={routes.register} component={Register} />
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </AppWrapper>
   );
 };
 

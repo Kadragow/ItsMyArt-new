@@ -6,10 +6,13 @@ const routes = {
 
   user: {
     home: '/user',
+    settings: '/user/settings',
   },
 
   admin: {
     home: '/admin',
+    settings: '/admin/settings',
+    administration: '/admin/administration',
   },
 };
 
