@@ -9,6 +9,9 @@ export const MenuWrapper = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 3px solid ${({ theme }) => theme.secondary};
+  box-shadow: 0 0px 14px ${({ theme }) => theme.primary},
+    0 0px 20px ${({ theme }) => theme.secondary};
 
   width: 100%;
   min-height: 15vh;
@@ -17,10 +20,12 @@ export const MenuWrapper = styled.nav`
   transition: 0.3s;
 
   @media ${device.tablet} {
-  position: relative;
+    border-bottom: none;
+    border-right: 3px solid ${({ theme }) => theme.secondary};
+    position: relative;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: start;
+    align-items: center;
+    justify-content: flex-start;
     height: 100vh;
     width: ${({ isExpanded }) => (isExpanded ? '300px' : '80px')};
     padding: 10px;
@@ -64,10 +69,6 @@ export const Title = styled(Link)`
   text-align: center;
   color: ${({ theme }) => theme.secondary};
   text-shadow: 0 0 5px ${({ theme }) => theme.secondary};
-
-  @media ${device.tablet} {
-    margin-bottom: 20px;
-  }
 `;
 
 export const LinksWrapper = styled.ul`
@@ -94,6 +95,7 @@ export const LinksWrapper = styled.ul`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 35% auto;
   }
 `;
 
