@@ -1,8 +1,10 @@
 import useAuth from 'auth/useAuth';
+import { SimpleLink } from 'components/atoms/SimpleLink';
 import MainWrapper from 'components/shared/MainWrapper';
 import SimpleForm from 'components/shared/SimpleForm';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import routes from 'routes/routes';
 
 const inputs = [
   {
@@ -44,6 +46,13 @@ const Register = () => {
     if (result?.data) setError(result.data);
   };
 
+  const helpText = (
+    <span>
+      Already have an account?{' '}
+      <SimpleLink to={routes.login}>Login right now!</SimpleLink>
+    </span>
+  );
+
   return (
     <MainWrapper center>
       <SimpleForm
@@ -52,6 +61,7 @@ const Register = () => {
         onSubmit={onSubmit}
         error={error}
         resetError={resetError}
+        helpText={helpText}
         border
       />
     </MainWrapper>

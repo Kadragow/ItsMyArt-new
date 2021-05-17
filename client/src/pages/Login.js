@@ -37,7 +37,7 @@ const Login = () => {
 
   const helpText = (
     <span>
-      Don't have account?{' '}
+      Don't have an account?{' '}
       <SimpleLink to={routes.register}>Register right now!</SimpleLink>
     </span>
   );
