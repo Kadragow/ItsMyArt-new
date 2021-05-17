@@ -22,6 +22,7 @@ const SideMenu = () => {
 
   const mappedLinks = links.map((el) => (
     <S.NavLinks
+      key={el.to}
       to={el.to}
       isExpanded={isExpanded}
       isActive={() => pathname === el.to}

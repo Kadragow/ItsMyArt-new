@@ -46,6 +46,7 @@ const SimpleForm = ({
 
   const mappedInputs = inputs.map((input) => (
     <Controller
+      key={input.name}
       name={input.name}
       control={control}
       defaultValue={input.defaultValue}
