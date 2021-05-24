@@ -1,10 +1,11 @@
 import useAuth from 'auth/useAuth';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import MainWrapper from 'components/shared/MainWrapper';
 import SimpleForm from 'components/shared/SimpleForm';
 import routes from 'routes/routes';
 import { SimpleLink } from 'components/atoms/SimpleLink';
+import { useSelector } from 'react-redux';
 
 const inputs = [
   {
@@ -24,6 +25,7 @@ const Login = () => {
   const [error, setError] = useState();
   const { login } = useAuth();
   const history = useHistory();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const resetError = () => setError(null);
 
@@ -41,6 +43,9 @@ const Login = () => {
       <SimpleLink to={routes.register}>Register right now!</SimpleLink>
     </span>
   );
+
+  if (isAuthenticated)
+    return <Redirect to={history.location.state?.from || '/'} />;
 
   return (
     <MainWrapper center>

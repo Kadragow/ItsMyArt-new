@@ -20,9 +20,11 @@ export const MenuWrapper = styled.nav`
   transition: 0.3s;
 
   @media ${device.tablet} {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
     border-bottom: none;
     border-right: 3px solid ${({ theme }) => theme.secondary};
-    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -79,12 +81,12 @@ export const LinksWrapper = styled.ul`
   flex-direction: column;
   padding: 25px;
 
+  z-index: 1;
   position: absolute;
   height: 90vh;
-  background-color: ${({ theme }) => theme.primary};
   top: 15vh;
-  z-index: 1;
   right: ${({ isOpen }) => (isOpen ? 0 : '-100%')};
+  background-color: ${({ theme }) => theme.primary};
   transition: 0.3s;
 
   @media ${device.tablet} {
@@ -92,10 +94,8 @@ export const LinksWrapper = styled.ul`
     height: auto;
     position: relative;
     right: 0;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    margin: 35% auto;
+    margin: auto auto 60vh auto;
   }
 `;
 

@@ -3,7 +3,8 @@ import { SimpleLink } from 'components/atoms/SimpleLink';
 import MainWrapper from 'components/shared/MainWrapper';
 import SimpleForm from 'components/shared/SimpleForm';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router';
 import routes from 'routes/routes';
 
 const inputs = [
@@ -35,6 +36,7 @@ const Register = () => {
   const [error, setError] = useState();
   const { register } = useAuth();
   const history = useHistory();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const resetError = () => setError(null);
 
@@ -52,6 +54,9 @@ const Register = () => {
       <SimpleLink to={routes.login}>Login right now!</SimpleLink>
     </span>
   );
+
+  if (isAuthenticated)
+    return <Redirect to={history.location.state?.from || '/'} />;
 
   return (
     <MainWrapper center>

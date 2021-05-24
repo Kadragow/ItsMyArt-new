@@ -14,10 +14,11 @@ import { device } from 'styles/devices';
 import useAuth from 'auth/useAuth';
 
 const AppWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
+  overflow: visible;
 
   @media ${device.tablet} {
     flex-direction: row;
