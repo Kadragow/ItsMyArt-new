@@ -6,9 +6,11 @@ import * as S from './SideMenu.sc';
 import theme from 'styles/theme';
 import { adminLinks, guestLinks, userLinks } from './menuItems';
 
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import { ROLE } from 'constants/constants';
 import { useLocation } from 'react-router';
+import useAuth from 'auth/useAuth';
 
 const SideMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,9 +18,15 @@ const SideMenu = () => {
   const [links, setLinks] = useState(guestLinks);
   const { user } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
+  const { logout } = useAuth();
 
   const toggleIsOpen = () => setIsOpen((prev) => !prev);
   const toggleIsExpanded = () => setIsExpanded((prev) => !prev);
+
+  const onLogout = () => {
+    toggleIsOpen();
+    logout();
+  };
 
   const mappedLinks = links.map((el) => (
     <S.NavLinks
@@ -45,7 +53,15 @@ const SideMenu = () => {
         <DoubleArrowIcon onClick={toggleIsExpanded} />
       </S.ArrowWrapper>
       <S.Title to={routes.home}>It's My Art!</S.Title>
-      <S.LinksWrapper isOpen={isOpen}>{mappedLinks}</S.LinksWrapper>
+      <S.LinksWrapper isOpen={isOpen}>
+        {mappedLinks}
+        {user && (
+          <S.NavButton isExpanded={isExpanded} onClick={onLogout}>
+            <PowerSettingsNewIcon />
+            <span>Logout</span>
+          </S.NavButton>
+        )}
+      </S.LinksWrapper>
       <Squash color={theme.secondary} toggled={isOpen} toggle={toggleIsOpen} />
     </S.MenuWrapper>
   );

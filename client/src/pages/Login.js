@@ -31,8 +31,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     const result = await login(data);
-
-    if (result === 'success') history.push(history.location.state?.from || '/');
+    if (result === 'success') return <Redirect to={history.location.state?.from || '/'} />;
 
     if (result?.data) setError(result.data);
   };

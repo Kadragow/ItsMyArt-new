@@ -5,7 +5,7 @@ const MainWrapper = styled.main`
   padding: 15vh 5px 5px 5px;
   height: 100vh;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   ${({ center }) =>
     center &&
     css`

@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { device } from 'styles/devices';
 
 export const MenuWrapper = styled.nav`
@@ -30,6 +30,7 @@ export const MenuWrapper = styled.nav`
     justify-content: flex-start;
     height: 100vh;
     width: ${({ isExpanded }) => (isExpanded ? '300px' : '80px')};
+    min-width: ${({ isExpanded }) => (isExpanded ? '300px' : '80px')};
     padding: 10px;
 
     .hamburger-react {
@@ -95,12 +96,11 @@ export const LinksWrapper = styled.ul`
     position: relative;
     right: 0;
     justify-content: center;
-    margin: auto auto 60vh auto;
+    margin: auto auto 50vh auto;
   }
 `;
 
-const activeClassName = 'nav-item-active';
-export const NavLinks = styled(NavLink).attrs({ activeClassName })`
+const sharedNavItemStyle = css`
   position: relative;
 
   text-decoration: none;
@@ -124,14 +124,6 @@ export const NavLinks = styled(NavLink).attrs({ activeClassName })`
     transition: 0.3s;
   }
 
-  &.${activeClassName} {
-    ::before {
-      left: 0;
-      right: auto;
-      width: 100%;
-    }
-  }
-
   &:before {
     content: '';
     position: absolute;
@@ -144,6 +136,8 @@ export const NavLinks = styled(NavLink).attrs({ activeClassName })`
   }
 
   &:hover {
+    cursor: pointer;
+
     ::before {
       left: 0;
       right: auto;
@@ -165,4 +159,24 @@ export const NavLinks = styled(NavLink).attrs({ activeClassName })`
       display: ${({ isExpanded }) => !isExpanded && 'none'};
     }
   }
+`;
+
+const activeClassName = 'nav-item-active';
+export const NavLinks = styled(NavLink).attrs({ activeClassName })`
+  ${sharedNavItemStyle};
+
+  &.${activeClassName} {
+    ::before {
+      left: 0;
+      right: auto;
+      width: 100%;
+    }
+  }
+`;
+
+export const NavButton = styled.button`
+  ${sharedNavItemStyle};
+  background-color: transparent;
+  border: none;
+  padding: 0;
 `;
