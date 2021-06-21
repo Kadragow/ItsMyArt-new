@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  client:
+    build: ./client
+    # restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./client/:/client
+    links:
+      - server
+    depends_on:
+      - server
+    command: bash -c "npm install && npm start"
+
+  server:
+    build: ./server
+    # restart: always
+    volumes:
+      - ./server:/server
+    command: bash -c "npm install && npm start"
+    ports:
+      - '5000:5000'

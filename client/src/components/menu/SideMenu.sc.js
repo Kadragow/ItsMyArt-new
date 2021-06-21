@@ -9,9 +9,15 @@ export const MenuWrapper = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid ${({ theme }) => theme.secondary};
-  box-shadow: 0 0px 14px ${({ theme }) => theme.primary},
-    0 0px 20px ${({ theme }) => theme.secondary};
+  border-bottom: 2px solid ${({ theme }) => theme.secondary};
+  /* border-top: 2px solid ${({ theme }) => theme.secondary}; */
+  border-top: 2px solid transparent;
+  border-image: linear-gradient(
+    to left,
+    transparent,
+    ${({ theme }) => theme.secondary}
+  );
+  border-image-slice: 1;
 
   width: 100%;
   min-height: 15vh;
@@ -24,7 +30,14 @@ export const MenuWrapper = styled.nav`
     position: sticky;
     top: 0px;
     border-bottom: none;
-    border-right: 3px solid ${({ theme }) => theme.secondary};
+    border-top: none;
+    border-right: 2px solid transparent;
+    border-image: linear-gradient(
+      to top,
+      transparent,
+      ${({ theme }) => theme.secondary}
+    );
+    border-image-slice: 1;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -74,6 +87,32 @@ export const Title = styled(Link)`
   text-shadow: 0 0 5px ${({ theme }) => theme.secondary};
 `;
 
+export const CurrentUser = styled.div`
+  margin: auto auto 1vh auto;
+  display: flex;
+  flex-direction: column;
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.6em;
+  }
+
+  h2 {
+    font-size: 2em;
+    color: ${({ theme }) => theme.secondary};
+    text-align: center;
+  }
+
+  @media ${device.tablet} {
+    width: 100%;
+    display: flex;
+  }
+`;
+
 export const LinksWrapper = styled.ul`
   width: 100%;
   display: flex;
@@ -95,8 +134,9 @@ export const LinksWrapper = styled.ul`
     height: auto;
     position: relative;
     right: 0;
+    top: auto;
     justify-content: center;
-    margin: auto auto 50vh auto;
+    margin: auto auto 40vh auto;
   }
 `;
 

@@ -1,7 +1,7 @@
 import { SET_PAGE_PARAMETERS } from '../actions/pagination.action';
 
 const INITIAL_STATE = {
-  limit: 5,
+  limit: 10,
   page: 1,
   totalPages: 1,
   hasNextPage: true,

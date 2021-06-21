@@ -18,7 +18,7 @@ const SideMenu = () => {
   const [links, setLinks] = useState(guestLinks);
   const { user } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
-  const { logout } = useAuth();
+  const { logout, getCurrentUser } = useAuth();
 
   const toggleIsOpen = () => setIsOpen((prev) => !prev);
   const toggleIsExpanded = () => setIsExpanded((prev) => !prev);
@@ -47,12 +47,22 @@ const SideMenu = () => {
     if (user?.role?.name === ROLE.admin) setLinks(adminLinks);
   }, [user]);
 
+  useEffect(() => {
+    getCurrentUser();
+  }, [pathname]);
+
   return (
     <S.MenuWrapper isExpanded={isExpanded}>
       <S.ArrowWrapper isExpanded={isExpanded}>
         <DoubleArrowIcon onClick={toggleIsExpanded} />
       </S.ArrowWrapper>
       <S.Title to={routes.home}>It's My Art!</S.Title>
+      {user && (
+        <S.CurrentUser>
+          <p>Logged as</p>
+          <h2>{isExpanded ? user?.nickname : `${user?.nickname?.slice(0, 1)}...${user?.nickname?.slice(-1)}`}</h2>
+        </S.CurrentUser>
+      )}
       <S.LinksWrapper isOpen={isOpen}>
         {mappedLinks}
         {user && (
