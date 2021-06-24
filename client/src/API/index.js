@@ -41,4 +41,6 @@ export const api = {
 
   getAllPosts: ({ page, limit }) =>
     sendRequest.get(`/posts?page=${page}&limit=${limit}`),
+
+  createPost: (body) => sendRequest.post('/posts/create', body),
 };

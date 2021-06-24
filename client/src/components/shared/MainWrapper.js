@@ -3,8 +3,9 @@ import { device } from 'styles/devices';
 
 const MainWrapper = styled.main`
   padding: 15vh 5px 5px 5px;
-  min-height: 100vh;
+  height: 100vh;
   width: 100%;
+  overflow-y: auto;
   ${({ center }) =>
     center &&
     css`

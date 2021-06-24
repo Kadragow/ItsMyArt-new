@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { device } from 'styles/devices';
 
 export const MenuWrapper = styled.nav`
@@ -9,9 +9,15 @@ export const MenuWrapper = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid ${({ theme }) => theme.secondary};
-  box-shadow: 0 0px 14px ${({ theme }) => theme.primary},
-    0 0px 20px ${({ theme }) => theme.secondary};
+  border-bottom: 2px solid ${({ theme }) => theme.secondary};
+  /* border-top: 2px solid ${({ theme }) => theme.secondary}; */
+  border-top: 2px solid transparent;
+  border-image: linear-gradient(
+    to left,
+    transparent,
+    ${({ theme }) => theme.secondary}
+  );
+  border-image-slice: 1;
 
   width: 100%;
   min-height: 15vh;
@@ -20,14 +26,24 @@ export const MenuWrapper = styled.nav`
   transition: 0.3s;
 
   @media ${device.tablet} {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
     border-bottom: none;
-    border-right: 3px solid ${({ theme }) => theme.secondary};
-    position: relative;
+    border-top: none;
+    border-right: 2px solid transparent;
+    border-image: linear-gradient(
+      to top,
+      transparent,
+      ${({ theme }) => theme.secondary}
+    );
+    border-image-slice: 1;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     height: 100vh;
     width: ${({ isExpanded }) => (isExpanded ? '300px' : '80px')};
+    min-width: ${({ isExpanded }) => (isExpanded ? '300px' : '80px')};
     padding: 10px;
 
     .hamburger-react {
@@ -71,6 +87,53 @@ export const Title = styled(Link)`
   text-shadow: 0 0 5px ${({ theme }) => theme.secondary};
 `;
 
+export const CurrentUser = styled.div`
+  margin: 1vh auto 1vh auto;
+  display: flex;
+  flex-direction: column;
+
+  a,
+  p {
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.6em;
+  }
+
+  a {
+    font-size: 2em;
+    color: ${({ theme }) => theme.secondary};
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media ${device.tablet} {
+    width: 100%;
+    display: flex;
+
+    a {
+      ${({ isExpanded }) =>
+        !isExpanded &&
+        css`
+          font-size: 0;
+
+          &::first-letter {
+            font-size: 2rem;
+          }
+
+          &::after {
+            content: '...';
+          }
+        `}
+    }
+  }
+`;
+
 export const LinksWrapper = styled.ul`
   width: 100%;
   display: flex;
@@ -79,12 +142,12 @@ export const LinksWrapper = styled.ul`
   flex-direction: column;
   padding: 25px;
 
+  z-index: 1;
   position: absolute;
   height: 90vh;
-  background-color: ${({ theme }) => theme.primary};
   top: 15vh;
-  z-index: 1;
   right: ${({ isOpen }) => (isOpen ? 0 : '-100%')};
+  background-color: ${({ theme }) => theme.primary};
   transition: 0.3s;
 
   @media ${device.tablet} {
@@ -92,15 +155,18 @@ export const LinksWrapper = styled.ul`
     height: auto;
     position: relative;
     right: 0;
-    display: flex;
-    align-items: center;
+    top: auto;
     justify-content: center;
-    margin: 35% auto;
+    margin: auto auto 50vh auto;
+    ${({ isLogged }) =>
+      isLogged &&
+      css`
+        margin: auto auto 25vh auto;
+      `}
   }
 `;
 
-const activeClassName = 'nav-item-active';
-export const NavLinks = styled(NavLink).attrs({ activeClassName })`
+const sharedNavItemStyle = css`
   position: relative;
 
   text-decoration: none;
@@ -124,14 +190,6 @@ export const NavLinks = styled(NavLink).attrs({ activeClassName })`
     transition: 0.3s;
   }
 
-  &.${activeClassName} {
-    ::before {
-      left: 0;
-      right: auto;
-      width: 100%;
-    }
-  }
-
   &:before {
     content: '';
     position: absolute;
@@ -144,6 +202,8 @@ export const NavLinks = styled(NavLink).attrs({ activeClassName })`
   }
 
   &:hover {
+    cursor: pointer;
+
     ::before {
       left: 0;
       right: auto;
@@ -165,4 +225,24 @@ export const NavLinks = styled(NavLink).attrs({ activeClassName })`
       display: ${({ isExpanded }) => !isExpanded && 'none'};
     }
   }
+`;
+
+const activeClassName = 'nav-item-active';
+export const NavLinks = styled(NavLink).attrs({ activeClassName })`
+  ${sharedNavItemStyle};
+
+  &.${activeClassName} {
+    ::before {
+      left: 0;
+      right: auto;
+      width: 100%;
+    }
+  }
+`;
+
+export const NavButton = styled.button`
+  ${sharedNavItemStyle};
+  background-color: transparent;
+  border: none;
+  padding: 0;
 `;

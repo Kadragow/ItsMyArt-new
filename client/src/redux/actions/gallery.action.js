@@ -3,6 +3,7 @@ import paginationActions from './pagination.action';
 
 export const ADD_POSTS = 'ADD_POSTS';
 export const FETCHING_POSTS = 'FETCHING_POSTS';
+export const SET_POSTS = 'SET_POSTS';
 
 const setFetchingImages = (fetching) => ({
   type: FETCHING_POSTS,
@@ -13,6 +14,16 @@ const addPosts = (posts) => ({
   type: ADD_POSTS,
   posts,
 });
+
+const setPosts = (posts) => ({
+  type: SET_POSTS,
+  posts,
+});
+
+const clearPosts = () => async (dispatch) => {
+  dispatch(setPosts([]));
+  dispatch(paginationActions.resetPageParameters());
+};
 
 const getNextPosts = () => async (dispatch, getState) => {
   const { pagination, gallery } = getState();
@@ -52,6 +63,7 @@ const fetchPostsData = async (params) => {
 
 const actionSet = {
   getNextPosts,
+  clearPosts,
 };
 
 export default actionSet;
