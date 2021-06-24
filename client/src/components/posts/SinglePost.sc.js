@@ -1,8 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { device } from 'styles/devices';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 90%;
   position: relative;
   display: flex;
@@ -17,7 +16,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const PostImage = styled.img`
+export const PostImage = styled.img`
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -31,7 +30,35 @@ const PostImage = styled.img`
   }
 `;
 
-const PostInfo = styled.div`
+export const PostImagePlaceholder = styled.div`
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  max-height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${({ theme }) => theme.secondary};
+
+  > div {
+    width: 90%;
+    height: 50vh;
+    max-height: 90%;
+    border: 2px dashed;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media ${device.tablet} {
+    width: 70%;
+    max-height: 100%;
+  }
+`;
+
+const sideInfoCss = css`
   max-width: 100%;
   max-height: 100%;
   width: 100%;
@@ -43,9 +70,13 @@ const PostInfo = styled.div`
   background-color: ${({ theme }) => theme.primaryLight};
   border-top: 1px solid ${({ theme }) => theme.secondaryDark};
 
-  * {
+  h1,
+  h2,
+  p,
+  input,
+  textarea {
     padding-left: 10px;
-    /* background-color: ${({ theme }) => theme.primary}; */
+    background-color: ${({ theme }) => theme.primaryLight};
     border: 1px solid ${({ theme }) => theme.secondaryDark};
     border-left: 7px solid ${({ theme }) => theme.secondary};
   }
@@ -72,7 +103,7 @@ const PostInfo = styled.div`
   }
 
   @media ${device.tablet} {
-    width: 30%;
+    max-width: 30%;
     height: 100%;
 
     padding: 25px;
@@ -81,17 +112,25 @@ const PostInfo = styled.div`
   }
 `;
 
-const SinglePost = ({ file, title, user, description }) => {
-  return (
-    <Wrapper>
-      <PostImage src={file} />
-      <PostInfo>
-        <h1>{user?.nickname}</h1>
-        <h2>{title}</h2>
-        {description && <p>{description}</p>}
-      </PostInfo>
-    </Wrapper>
-  );
-};
+export const PostInfo = styled.div`
+  ${sideInfoCss}
+`;
 
-export default SinglePost;
+export const PostInfoForm = styled.form`
+  ${sideInfoCss}
+
+  input {
+    color: ${({ theme }) => theme.fontColor};
+    border-top: none;
+    padding-bottom: 10px;
+    font-size: 24px;
+  }
+
+  textarea {
+    color: ${({ theme }) => theme.fontColor};
+    font-size: 16px;
+    margin-top: 20px;
+    padding: 10px;
+    resize: vertical;
+  }
+`;

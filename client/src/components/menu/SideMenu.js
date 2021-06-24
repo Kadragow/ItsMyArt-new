@@ -8,11 +8,16 @@ import { adminLinks, guestLinks, userLinks } from './menuItems';
 
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import { ROLE } from 'constants/constants';
 import { useLocation } from 'react-router';
 import useAuth from 'auth/useAuth';
+import { Link } from 'react-router-dom';
+import SimpleModal from 'components/shared/SimpleModal';
+import PostCreator from 'components/posts/PostCreator';
 
 const SideMenu = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [links, setLinks] = useState(guestLinks);
@@ -22,11 +27,23 @@ const SideMenu = () => {
 
   const toggleIsOpen = () => setIsOpen((prev) => !prev);
   const toggleIsExpanded = () => setIsExpanded((prev) => !prev);
+  const toggleModal = () => setIsModalOpen((prev) => !prev);
 
   const onLogout = () => {
     toggleIsOpen();
     logout();
   };
+
+  const onAddPost = () => {
+    toggleModal();
+  };
+
+  const menuButton = (label, icon, action) => (
+    <S.NavButton isExpanded={isExpanded} onClick={action}>
+      {icon}
+      <span>{label}</span>
+    </S.NavButton>
+  );
 
   const mappedLinks = links.map((el) => (
     <S.NavLinks
@@ -58,21 +75,21 @@ const SideMenu = () => {
       </S.ArrowWrapper>
       <S.Title to={routes.home}>It's My Art!</S.Title>
       {user && (
-        <S.CurrentUser>
+        <S.CurrentUser isExpanded={isExpanded}>
           <p>Logged as</p>
-          <h2>{isExpanded ? user?.nickname : `${user?.nickname?.slice(0, 1)}...${user?.nickname?.slice(-1)}`}</h2>
+          <Link to="/user">{user?.nickname}</Link>
         </S.CurrentUser>
       )}
-      <S.LinksWrapper isOpen={isOpen}>
+      <S.LinksWrapper isOpen={isOpen} isLogged={user}>
+        {user && menuButton('Add post', <AddBoxIcon />, onAddPost)}
         {mappedLinks}
-        {user && (
-          <S.NavButton isExpanded={isExpanded} onClick={onLogout}>
-            <PowerSettingsNewIcon />
-            <span>Logout</span>
-          </S.NavButton>
-        )}
+        {user && menuButton('Logout', <PowerSettingsNewIcon />, onLogout)}
       </S.LinksWrapper>
       <Squash color={theme.secondary} toggled={isOpen} toggle={toggleIsOpen} />
+
+      <SimpleModal open={isModalOpen} onClose={toggleModal}>
+        <PostCreator toggleModal={toggleModal} />
+      </SimpleModal>
     </S.MenuWrapper>
   );
 };

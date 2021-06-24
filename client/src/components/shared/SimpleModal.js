@@ -1,11 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Modal, Backdrop, Fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';
+import CloseIcon from 'components/atoms/CloseIcon';
 
 const useStyles = makeStyles((theme) => {
-  // console.log(theme.palette.background.paper);
   return {
     modal: {
       display: 'flex',
@@ -20,23 +18,6 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-
-const StyledSvg = styled(CancelPresentationIcon)`
-  z-index: 2;
-  color: ${({ theme }) => theme.secondary};
-  position: absolute;
-  top: 2%;
-  right: 2%;
-  width: 3rem !important;
-  height: 3rem !important;
-
-  cursor: pointer;
-  transition: 0.3s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-`;
 
 const SimpleModal = ({ open, onClose, children }) => {
   const classes = useStyles();
@@ -54,7 +35,7 @@ const SimpleModal = ({ open, onClose, children }) => {
     >
       <Fade in={open}>
         <>
-          <StyledSvg onClick={onClose} />
+          <CloseIcon onClick={onClose} />
           {children}
         </>
       </Fade>

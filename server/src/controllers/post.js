@@ -1,3 +1,4 @@
+import fs from 'fs';
 import Post from '../models/Post.js';
 import { SERVER_ERROR } from '../utils/constants.js';
 
@@ -60,7 +61,13 @@ export const getPostsByUserId = async (req, res) => {
 export const createPost = async (req, res) => {
   try {
     const id = req.userId;
-    const post = { ...req.body, user: id };
+    const file = Buffer.from(req.file.buffer).toString('base64');
+    const post = {
+      title: req.body.title,
+      description: req.body.description,
+      file: `data:${req.file.mimetype};base64,${file}`,
+      user: id,
+    };
 
     const newPost = Post(post);
 

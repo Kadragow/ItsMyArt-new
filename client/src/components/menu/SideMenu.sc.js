@@ -88,11 +88,11 @@ export const Title = styled(Link)`
 `;
 
 export const CurrentUser = styled.div`
-  margin: auto auto 1vh auto;
+  margin: 1vh auto 1vh auto;
   display: flex;
   flex-direction: column;
 
-  h2,
+  a,
   p {
     margin: 0;
   }
@@ -101,15 +101,36 @@ export const CurrentUser = styled.div`
     font-size: 0.6em;
   }
 
-  h2 {
+  a {
     font-size: 2em;
     color: ${({ theme }) => theme.secondary};
     text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   @media ${device.tablet} {
     width: 100%;
     display: flex;
+
+    a {
+      ${({ isExpanded }) =>
+        !isExpanded &&
+        css`
+          font-size: 0;
+
+          &::first-letter {
+            font-size: 2rem;
+          }
+
+          &::after {
+            content: '...';
+          }
+        `}
+    }
   }
 `;
 
@@ -136,7 +157,12 @@ export const LinksWrapper = styled.ul`
     right: 0;
     top: auto;
     justify-content: center;
-    margin: auto auto 40vh auto;
+    margin: auto auto 50vh auto;
+    ${({ isLogged }) =>
+      isLogged &&
+      css`
+        margin: auto auto 25vh auto;
+      `}
   }
 `;
 

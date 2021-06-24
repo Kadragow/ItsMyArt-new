@@ -5,7 +5,9 @@ import useScrollTrigger from 'hooks/useScrollTrigger';
 import * as S from './Gallery.sc';
 import theme from 'styles/theme';
 import SimpleModal from 'components/shared/SimpleModal';
-import SinglePost from 'components/shared/SinglePost';
+import SinglePost from 'components/posts/SinglePost';
+import { Link } from 'react-router-dom';
+import PostTile from 'components/posts/PostTile';
 
 const Gallery = () => {
   const scrollTrigger = useRef();
@@ -31,13 +33,7 @@ const Gallery = () => {
   };
 
   const mappedImages = posts.map((post) => (
-    <S.PostWrapper key={post?._id} onClick={() => showPost(post)}>
-      <S.PostImage src={post?.file} />
-      <S.PostInfo>
-        <h2>{post?.title}</h2>
-        <a href={`/user/${post?.user?.nickname}`}>by {post?.user?.nickname}</a>
-      </S.PostInfo>
-    </S.PostWrapper>
+    <PostTile post={post} showPost={showPost} />
   ));
 
   return (
