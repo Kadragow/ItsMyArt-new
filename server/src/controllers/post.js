@@ -10,10 +10,10 @@ export const getPosts = async (req, res) => {
     const posts = await Post.paginate(
       {},
       {
-        offset: page,
-        limit: limit,
+        page,
+        limit,
         populate: 'user',
-        sort: { createdAt: 'asc' },
+        sort: { createdAt: 'desc' },
       }
     );
 

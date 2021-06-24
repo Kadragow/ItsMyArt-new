@@ -1,4 +1,8 @@
-import { ADD_POSTS, FETCHING_POSTS } from '../actions/gallery.action';
+import {
+  ADD_POSTS,
+  FETCHING_POSTS,
+  SET_POSTS,
+} from '../actions/gallery.action';
 
 const INITIAL_STATE = {
   posts: [],
@@ -7,6 +11,8 @@ const INITIAL_STATE = {
 
 const galleryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case SET_POSTS:
+      return { ...state, posts: action.posts };
     case ADD_POSTS:
       return { ...state, posts: state.posts.concat(action.posts) };
     case FETCHING_POSTS:

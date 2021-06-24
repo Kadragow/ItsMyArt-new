@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import { useForm, Controller } from 'react-hook-form';
-import fs from 'fs';
 import {
   Wrapper,
   PostImage,
@@ -12,6 +11,7 @@ import {
 import CloseIcon from 'components/atoms/CloseIcon';
 import { SimpleButton } from 'components/atoms/SimpleButton';
 import { api } from 'API';
+import allActions from 'redux/actions';
 
 const inputs = [
   {
@@ -29,12 +29,12 @@ const inputs = [
 ];
 
 const PostCreator = ({ toggleModal, file, defaultValue }) => {
+  const dispatch = useDispatch();
   const [image, setImage] = useState(file);
   const { user } = useSelector((state) => state.auth);
   const { handleSubmit, control } = useForm();
 
   const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles);
     if (acceptedFiles && acceptedFiles?.length > 0) setImage(acceptedFiles[0]);
   });
 
@@ -49,18 +49,15 @@ const PostCreator = ({ toggleModal, file, defaultValue }) => {
   };
 
   const onSubmit = async (inputs) => {
-    // const file = await fs.readFile(image, { encoding: 'base64' });
-    const body = {
-        file : image,
-        ...inputs
-    }
+    console.log(inputs);
     const formData = new FormData();
     formData.append('file', image);
-    formData.append('title', inputs.title);
-    formData.append('description', inputs.description);
+    formData.append('title', inputs.title || '');
+    formData.append('description', inputs.description || '');
 
     try {
       await api.createPost(formData);
+      dispatch(allActions.galleryActions.clearPosts());
       toggleModal && toggleModal();
     } catch (err) {
       console.log(err);

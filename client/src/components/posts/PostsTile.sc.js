@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const PostWrapper = styled.div`
+  width: 100%;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -54,7 +55,7 @@ export const PostInfo = styled.div`
 
 export const PostImage = styled.img`
   max-width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   transition: 0.5s;
   cursor: pointer;
